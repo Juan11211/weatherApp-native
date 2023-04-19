@@ -3,20 +3,24 @@ import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import { Feather } from '@expo/vector-icons';
 import RowText from '../components/RowText';
 import {weatherType} from '../utilities/weatherType'
-const currentWeather = () => {
+
+
+
+const currentWeather = ({weatherData}) => {
   
+  const { main: { temp, feels_like, temp_max, temp_min}, weather} = weatherData
+
+  const weatherCondition = weather[0].main
+
   return(
-    <SafeAreaView style={styles.wrapper }>
+    <SafeAreaView style={[styles.wrapper, { backgroundColor: weatherType[weatherCondition].backgroundColor}] }>
       <View style={styles.container}>
-        <Text>Current Weather</Text>
-      <Feather name='sun' size={100} color='white'/>
-        <Text style={styles.temp}>75</Text>
-        <Text style={styles.feels}>Real Feel 81</Text>
-        <RowText messageOne={'High 81'} messageTwo={'Low 75'} containerStyles={styles.hiloWrapper} 
-          messageOneStyles={styles.hilo} messageTwoStyles={styles.hilo} /> 
-      </View>
-      <View>
-        <RowText messageOne={'Its sunny'} messageTwo={'Buns Out'}  
+      <Feather name={weatherType[weatherCondition].icon} size={100} color='white'/>
+        <Text style={styles.temp}>{temp}</Text>
+        <Text style={styles.feels}>{`Real feel ${feels_like}`}</Text>
+        <RowText messageOne={`High of ${temp_max}`} messageTwo={`Low of ${temp_min}`} containerStyles={styles.hiloWrapper} 
+          messageOneStyles={styles.hilo} messageTwoStyles={styles.hilo} />
+        <RowText messageOne={'Its sunny'}    messageTwo={weatherType[weatherCondition]?.message} />  
         containerStyles={styles.bodyWrapper} messageOneStyles={styles.desc} messageTwoStyles={styles.desc}/>
       </View>
     </SafeAreaView>
