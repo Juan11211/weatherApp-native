@@ -1,43 +1,45 @@
 import React from 'react'
-import {View, Text, StyleSheet} from 'react-native'
-import { Feather } from '@expo/vector-icons';
+import { View, Text, StyleSheet } from 'react-native'
+import moment from 'moment'
+import { Feather } from '@expo/vector-icons'
+import { weatherType } from '../utilities/weatherType'
 
 const ListItem = (props) => {
-  const { dt_txt, temp_min, temp_max, main, description} = props
-   return( 
-     
-       <View style={styles.item}>
-           <Feather name='sun' size={30} color='black' />
-           <Text style={styles.date}>{dt_txt}</Text>
-           <Text style={styles.temp}>{temp_min}</Text>
-           <Text style={styles.temp}>{temp_max}</Text>
-           <Text style={styles.temp}>{main}</Text>
-           <Text>{description}</Text>
-       </View>
-   )
+  const { dt_txt, min, max, condition } = props
+  const { item, date, temp, dateTextWrapper } = styles
+  return (
+    <View style={item}>
+      <Feather name={weatherType[condition]?.icon} size={50} color={'white'} />
+      <View style={dateTextWrapper}>
+        <Text style={date}>{moment(dt_txt).format('dddd')}</Text>
+        <Text style={date}>{moment(dt_txt).format('h:mm:ss a')}</Text>
+      </View>
+      <Text style={temp}>{`${Math.round(min)}° / ${Math.round(max)}°`}</Text>
+    </View>
+  )
 }
 
-
 const styles = StyleSheet.create({
-    item: {
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16, 
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        borderWidth: 5,
-        backgroundColor: 'lightblue',
-        alignItems: 'center'
-      },
-      temp: {
-        color: 'white',
-        fontSize: 20
-  
-      },
-      date: {
-        color: 'white',
-        fontSize: 15
-      },
+  item: {
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderWidth: 5,
+    backgroundColor: 'darkgrey'
+  },
+  temp: {
+    color: 'white',
+    fontSize: 20
+  },
+  date: {
+    color: 'white',
+    fontSize: 15
+  },
+  dateTextWrapper: {
+    flexDirection: 'column'
+  }
 })
-
-export default ListItem;
+export default ListItem

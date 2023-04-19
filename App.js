@@ -3,14 +3,14 @@ import {StyleSheet, ActivityIndicator , View} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import Tabs from './src/components/Tabs'
 import { useGetWeather } from './src/hooks/useGetWeather'
-
+import ErrorItem from './src/components/Erroritem'
 // api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
 
 const App = () => {
   const [loading, error, weather] = useGetWeather();
 
 
-if(weather && weather.list){
+if(weather && weather.list && !loading){
   return (
     <NavigationContainer>
       <Tabs weather={weather}/>
@@ -19,12 +19,15 @@ if(weather && weather.list){
   )
 }
 
-  return (
-  <View style={styles.container}>
-    <ActivityIndicator size={'large'} color={'grey'} />
-   </View>
-   )
-
+return(
+<View style={styles.container}>
+{error ? (
+  <ErrorItem />
+) : (
+  <ActivityIndicator size={'large'} color={'blue'} />
+)}
+</View>
+)
 }
 
 const styles = StyleSheet.create({

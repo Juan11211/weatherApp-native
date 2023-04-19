@@ -6,53 +6,81 @@ import {weatherType} from '../utilities/weatherType'
 
 
 
-const currentWeather = ({weatherData}) => {
+const CurrentWeather = ({weatherData}) => {
+
+  const {
+    wrapper,
+    container,
+    temperature,
+    feels,
+    hiLowWrapper,
+    hiLow,
+    bodyWrapper,
+    description,
+    message
+  } = styles
   
   const { main: { temp, feels_like, temp_max, temp_min}, weather} = weatherData
 
   const weatherCondition = weather[0].main
 
-  return(
-    <SafeAreaView style={[styles.wrapper, { backgroundColor: weatherType[weatherCondition].backgroundColor}] }>
-      <View style={styles.container}>
-      <Feather name={weatherType[weatherCondition].icon} size={100} color='white'/>
-        <Text style={styles.temp}>{temp}</Text>
-        <Text style={styles.feels}>{`Real feel ${feels_like}`}</Text>
-        <RowText messageOne={`High of ${temp_max}`} messageTwo={`Low of ${temp_min}`} containerStyles={styles.hiloWrapper} 
-          messageOneStyles={styles.hilo} messageTwoStyles={styles.hilo} />
-        <RowText messageOne={'Its sunny'}    messageTwo={weatherType[weatherCondition]?.message} />  
-        containerStyles={styles.bodyWrapper} messageOneStyles={styles.desc} messageTwoStyles={styles.desc}/>
+  return (
+    <SafeAreaView
+      style={[
+        wrapper,
+        { backgroundColor: weatherType[weatherCondition]?.backgroundColor }
+      ]}
+    >
+      <View style={container}>
+        <Feather
+          name={weatherType[weatherCondition]?.icon}
+          size={100}
+          color="white"
+        />
+        <Text style={temperature}>{`${temp}°`}</Text>
+        <Text style={feels}>{`Feels like: ${feels_like}°`}</Text>
+        <RowText
+          messageOne={`High: ${temp_max}° `}
+          messageTwo={`Low: ${temp_min}°`}
+          containerStyles={hiLowWrapper}
+          messageOneStyles={hiLow}
+          messageTwoStyles={hiLow}
+        />
       </View>
+      <RowText
+        messageOne={weather[0]?.description}
+        messageTwo={weatherType[weatherCondition]?.message}
+        containerStyles={bodyWrapper}
+        messageOneStyles={description}
+        messageTwoStyles={message}
+      />
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1
+  },
   container: {
-    backgroundColor: 'lightblue',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  wrapper: {
-    flex: 1,
-    backgroundColor: 'lightblue'
-  }, 
-  temp: {
-    color: 'white',
+  temperature: {
+    color: 'black',
     fontSize: 48
   },
   feels: {
-    color: 'white',
+    fontSize: 30,
+    color: 'black'
+  },
+  hiLow: {
+    color: 'black',
     fontSize: 20
   },
-  hilo: {
-    color: 'white',
-    fontSize: 17
-  },
-  hiloWrapper: {
-    flexDirection: 'row',
-
+  hiLowWrapper: {
+    flexDirection: 'row'
   },
   bodyWrapper: {
     justifyContent: 'flex-end',
@@ -60,13 +88,11 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     marginBottom: 40
   },
-  desc: {
-    fontSize: 48
+  description: {
+    fontSize: 43
   },
   message: {
-    fontSize: 28
+    fontSize: 25
   }
 })
-
-export default currentWeather
-;
+export default CurrentWeather;

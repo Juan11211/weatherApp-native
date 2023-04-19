@@ -2,7 +2,7 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import CurrentWeather from '../screens/CurrentWeather'
-import UpcomingWeather from '../screens/City'
+import UpcomingWeather from '../screens/UpComingWeather'
 import City from '../screens/City'
 import { Feather } from '@expo/vector-icons'
 
@@ -17,7 +17,7 @@ const Tabs = ({ weather }) => {
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: {
           backgroundColor: 'lightblue'
-        },
+         },
         headerStyle: {
           backgroundColor: 'lightblue'
         },
@@ -41,6 +41,7 @@ const Tabs = ({ weather }) => {
         }}
       >
         {() => <CurrentWeather weatherData={weather.list[0]} />}
+
       </Tab.Screen>
       <Tab.Screen
         name={'Upcoming'}
@@ -55,6 +56,7 @@ const Tabs = ({ weather }) => {
         }}
       >
         {() => <UpcomingWeather weatherData={weather.list} />}
+        
       </Tab.Screen>
       <Tab.Screen
         name={'City'}
